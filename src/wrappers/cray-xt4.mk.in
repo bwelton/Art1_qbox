@@ -1,0 +1,46 @@
+#-------------------------------------------------------------------------------
+#
+# Copyright (c) 2008 The Regents of the University of California
+#
+# This file is part of Qbox
+#
+# Qbox is distributed under the terms of the GNU General Public License 
+# as published by the Free Software Foundation, either version 2 of 
+# the License, or (at your option) any later version.
+# See the file COPYING in the root directory of this distribution
+# or <http://www.gnu.org/licenses/>.
+#
+#-------------------------------------------------------------------------------
+#
+#  franklin.nersc.gov
+#
+#-------------------------------------------------------------------------------
+# $Id:$
+#
+ PLT=x86_64
+#-------------------------------------------------------------------------------
+ XERCESCDIR=@CMAKE_INSTALL_PREFIX@
+ PLTOBJECTS = readTSC.o
+
+ CXX=CC
+ LD=$(CXX)
+
+ OPT= -g
+
+ PLTFLAGS += $(OPT) -DIA32 -DUSE_FFTW3 -D_LARGEFILE_SOURCE \
+             -D_FILE_OFFSET_BITS=64 -DUSE_MPI -DSCALAPACK -DADD_ \
+             -DAPP_NO_THREADS -DXML_USE_NO_THREADS -DUSE_XERCES \
+             -DMPICH_IGNORE_CXX_SEEK
+
+ FFTWDIR=@FFTW_DIR@
+
+ INCLUDE = -I$(FFTWDIR)/include \
+           -I$(XERCESCDIR)/include
+
+ CXXFLAGS= -D$(PLT) $(INCLUDE) $(PLTFLAGS) $(DFLAGS)
+
+ LIBPATH = -L@CUDA_TOOLKIT_ROOT_DIR@/lib64 -L$(XERCESCDIR)/lib
+
+ LIBS =  -lcufftw -lxerces-c 
+
+ LDFLAGS = $(LIBPATH) $(LIBS)
